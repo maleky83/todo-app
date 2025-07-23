@@ -1,4 +1,5 @@
 let todoList = [];
+const BASE_URL = 'https://todo-api-w5r2.onrender.com/api/todos';
 const inputName = document.querySelector('#inputName');
 const form = document.querySelector('form');
 const btnAdd = document.querySelector('#add');
@@ -89,7 +90,7 @@ function showList() {
 }
 async function getFetch() {
   try {
-    const res = await fetch('https://todo-api-w5r2.onrender.com/api/todos');
+    const res = await fetch(BASE_URL);
     const data = await res.json();
     todoList = data;
     showList();
@@ -99,7 +100,7 @@ async function getFetch() {
 }
 async function postFetch(item) {
   try {
-    const res = await fetch('https://todo-api-w5r2.onrender.com/api/todos', {
+    const res = await fetch(BASE_URL, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -114,12 +115,9 @@ async function postFetch(item) {
 }
 async function delFetch(id) {
   try {
-    const res = await fetch(
-      `https://todo-api-w5r2.onrender.com/api/todos/${id}`,
-      {
-        method: 'DELETE'
-      }
-    );
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'DELETE'
+    });
     const data = await res.json();
     await getFetch();
     showRes('حذف شد');
@@ -129,16 +127,13 @@ async function delFetch(id) {
 }
 async function patchFetch(id, done) {
   try {
-    const res = await fetch(
-      `https://todo-api-w5r2.onrender.com/api/todos/${id}`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ done })
-      }
-    );
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ done })
+    });
     const data = await res.json();
     showRes('وضعیت\n' + data.done);
   } catch (err) {
