@@ -7,7 +7,6 @@ const {
   updateTodo
 } = require('../controllers/todoController');
 
-
 router.get('/', getAllTodos);
 router.post('/', createTodo);
 router.delete('/:id', deleteTodo);

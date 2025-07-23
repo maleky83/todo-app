@@ -20,7 +20,7 @@ const createTodo = (req, res) => {
   const todos = readTodos();
   const { task, time, done } = req.body;
   if (!task?.trim() || !time) {
-    return res.status(400).json({ error: 'تسک و زمان الزامی هست' });
+    return res.status(400).json({ error: 'تسک و زمان الزامی است' });
   }
 
   const newTodo = {
@@ -38,8 +38,7 @@ const createTodo = (req, res) => {
 const deleteTodo = (req, res) => {
   const todos = readTodos();
   const { id } = req.params;
-
-  const newTodos = todos.filter(i => i.id !== id);
+  const newTodos = todos.filter(t => t.id !== id);
   if (newTodos.length === todos.length) {
     return res.status(404).json({ error: 'تسک پیدا نشد' });
   }
@@ -51,13 +50,10 @@ const updateTodo = (req, res) => {
   const todos = readTodos();
   const { id } = req.params;
   const { done } = req.body;
-
-  const todo = todos.find(i => i.id === id);
-
+  const todo = todos.find(t => t.id === id);
   if (!todo) {
     return res.status(404).json({ error: 'تسک پیدا نشد' });
   }
-
   todo.done = !!done;
   writeTodos(todos);
   res.json(todo);

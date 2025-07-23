@@ -6,12 +6,12 @@ const btnAdd = document.querySelector('#add');
 const inputNum = document.querySelector('#inputNum');
 const ul = document.querySelector('ul');
 const container = document.querySelector('.container');
-form.addEventListener('submit', e => {
-  e.preventDefault();
-});
+
+form.addEventListener('submit', e => e.preventDefault());
+
 btnAdd.addEventListener('click', async () => {
   if (inputName.value !== '' && inputNum.value > 0) {
-    const result = todoList.find(t => t.task.trim() == inputName.value.trim());
+    const result = todoList.find(t => t.task.trim() === inputName.value.trim());
     if (!result) {
       await postFetch({
         task: inputName.value,
@@ -29,6 +29,7 @@ btnAdd.addEventListener('click', async () => {
     showErr('لطفا فیلد هارا درست پر کنید');
   }
 });
+
 function createLi(item) {
   const li = document.createElement('li');
   const h3 = document.createElement('h3');
@@ -37,57 +38,59 @@ function createLi(item) {
   const p1 = document.createElement('p');
   const btn = document.createElement('button');
   const i = document.createElement('i');
+
   h3.innerText = 'کار:';
   p.innerText = item.task;
   h31.innerText = 'زمان:';
-  p1.innerText = `${item.time}دقیقه`;
+  p1.innerText = `${item.time} دقیقه`;
+  btn.innerText = 'حذف';
   btn.classList.add('done-btn');
 
-  btn.innerText = 'حذف';
   btn.addEventListener('click', async () => {
     await delFetch(item.id);
     await getFetch();
     showList();
   });
+
   i.addEventListener('click', () => {
     li.classList.toggle('done');
     item.done = li.classList.contains('done');
     i.innerText = item.done ? '👍' : '👎';
     patchFetch(item.id, item.done);
   });
+
   if (item.done) {
     li.classList.add('done');
     i.innerText = '👍';
   } else {
     i.innerText = '👎';
   }
+
   li.append(h3, p, h31, p1, btn, i);
   ul.appendChild(li);
 }
-function showErr(item) {
+
+function showErr(msg) {
   const p = document.createElement('p');
   p.classList.add('Err');
-  p.innerText = item;
+  p.innerText = msg;
   container.before(p);
-  setTimeout(() => {
-    p.remove();
-  }, 1500);
+  setTimeout(() => p.remove(), 1500);
 }
-function showRes(item) {
+
+function showRes(msg) {
   const p = document.createElement('p');
   p.classList.add('show');
-  p.innerText = item;
+  p.innerText = msg;
   container.before(p);
-  setTimeout(() => {
-    p.remove();
-  }, 1500);
+  setTimeout(() => p.remove(), 1500);
 }
+
 function showList() {
-  ul.querySelectorAll('li').forEach(e => e.remove());
-  todoList.forEach(item => {
-    createLi(item);
-  });
+  ul.innerHTML = '';
+  todoList.forEach(createLi);
 }
+
 async function getFetch() {
   try {
     const res = await fetch(BASE_URL);
@@ -95,52 +98,45 @@ async function getFetch() {
     todoList = data;
     showList();
   } catch (err) {
-    showErr(err);
+    showErr('خطا در دریافت اطلاعات');
   }
 }
+
 async function postFetch(item) {
   try {
     const res = await fetch(BASE_URL, {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(item)
     });
     const data = await res.json();
-    showRes('اضافه شد\n' + data.task);
+    showRes('اضافه شد:\n' + data.task);
   } catch (err) {
-    showErr(err);
+    showErr('خطا در افزودن تسک');
   }
 }
+
 async function delFetch(id) {
   try {
-    const res = await fetch(`${BASE_URL}/${id}`, {
-      method: 'DELETE'
-    });
-    const data = await res.json();
-    await getFetch();
+    await fetch(`${BASE_URL}/${id}`, { method: 'DELETE' });
     showRes('حذف شد');
   } catch (err) {
-    showErr(err);
+    showErr('خطا در حذف');
   }
 }
+
 async function patchFetch(id, done) {
   try {
     const res = await fetch(`${BASE_URL}/${id}`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ done })
     });
     const data = await res.json();
-    showRes('وضعیت\n' + data.done);
+    showRes('وضعیت:\n' + (data.done ? 'انجام شده' : 'انجام نشده'));
   } catch (err) {
-    showErr(err);
+    showErr('خطا در بروزرسانی');
   }
 }
 
 getFetch();
-
-showList();

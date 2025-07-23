@@ -5,22 +5,12 @@ const todoRoutes = require('./routes/todoRouter');
 const path = require('path');
 const cors = require('cors');
 
-// اجازه فقط به GitHub Pages
-app.use(
-  cors({
-    origin: 'https://maleky83.github.io'
-  })
-);
-
-// یا اگر می‌خوای همه اجازه داشته باشن (برای تست)
-app.use(cors());
+// فقط اجازه به GitHub Pages بده
+app.use(cors({ origin: 'https://maleky83.github.io' }));
 
 app.use(express.static(path.join(__dirname, '../client')));
-
-// Middleware
 app.use(express.json());
 
-// Routes
 app.use('/api/todos', todoRoutes);
 
 app.use((req, res) => {
