@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const todoRoutes = require('./routes/todoRouter');
 const path = require('path');
+const cors = require('cors');
 
 // اجازه فقط به GitHub Pages
 app.use(
