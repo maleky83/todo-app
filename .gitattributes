@@ -1,0 +1,25 @@
+# تبدیل line ending همه فایل‌های متنی به LF روی مخزن
+* text=auto eol=lf
+
+# جلوگیری از ناهماهنگی در فایل‌های js/html/css/...
+*.js text eol=lf
+*.json text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.jsx text eol=lf
+*.sh text eol=lf
+
+# فایل‌های باینری نباید line ending تغییر کنن
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
