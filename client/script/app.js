@@ -23,10 +23,10 @@ btnAdd.addEventListener('click', async () => {
       inputName.value = '';
       inputNum.value = '';
     } else {
-      showErr('مقدار تکراری');
+      showToast('مقدار تکراری','error');
     }
   } else {
-    showErr('لطفا فیلد هارا درست پر کنید');
+    showToast('لطفا فیلد هارا درست پر کنید','error');
   }
 });
 
@@ -70,21 +70,21 @@ function createLi(item) {
   ul.appendChild(li);
 }
 
-function showErr(msg) {
-  const p = document.createElement('p');
-  p.classList.add('Err');
-  p.innerText = msg;
-  container.before(p);
-  setTimeout(() => p.remove(), 1500);
+function showToast(message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.classList.add('toast', type === 'error' ? 'error' : 'success');
+
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add('hide');
+    setTimeout(() => {
+      toast.remove();
+    }, 500);
+  }, 2500); // بعد از 2.5 ثانیه حذف میشه
 }
 
-function showRes(msg) {
-  const p = document.createElement('p');
-  p.classList.add('show');
-  p.innerText = msg;
-  container.before(p);
-  setTimeout(() => p.remove(), 1500);
-}
 
 function showList() {
   ul.innerHTML = '';
@@ -98,7 +98,7 @@ async function getFetch() {
     todoList = data;
     showList();
   } catch (err) {
-    showErr('خطا در دریافت اطلاعات');
+    showToast('خطا در دریافت اطلاعات','error');
   }
 }
 
@@ -110,18 +110,18 @@ async function postFetch(item) {
       body: JSON.stringify(item)
     });
     const data = await res.json();
-    showRes('اضافه شد:\n' + data.task);
+    showToast('اضافه شد:\n' + data.task,'success');
   } catch (err) {
-    showErr('خطا در افزودن تسک');
+    showToast('خطا در افزودن تسک','error');
   }
 }
 
 async function delFetch(id) {
   try {
     await fetch(`${BASE_URL}/${id}`, { method: 'DELETE' });
-    showRes('حذف شد');
+    showToast('حذف شد','success');
   } catch (err) {
-    showErr('خطا در حذف');
+    showToast('خطا در حذف','error');
   }
 }
 
@@ -133,9 +133,9 @@ async function patchFetch(id, done) {
       body: JSON.stringify({ done })
     });
     const data = await res.json();
-    showRes('وضعیت:\n' + (data.done ? 'انجام شده' : 'انجام نشده'));
+    showToast('وضعیت:\n' + (data.done ? 'انجام شده' : 'انجام نشده'),'success');
   } catch (err) {
-    showErr('خطا در بروزرسانی');
+    showToast('خطا در بروزرسانی','error');
   }
 }
 

@@ -20,9 +20,9 @@ body {
   box-shadow: 13px 24px 64px -22px;
   padding: 10px;
   border-radius: 10px;
-  width: 400px;
+  width: 50%;
   background-color: #fff;
-  height: 500px;
+  height: 50%;
   overflow: auto;
 }
 .container form {
@@ -102,22 +102,30 @@ i {
 .container ul li.done i {
   color: gold;
 }
-.show {
-  background-color: green;
+.toast {
   position: fixed;
-  top: 10px;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
   color: #fff;
-  padding: 10px;
-  border-radius: 40px;
-  text-align: center;
+  border-radius: 30px;
+  font-size: 1rem;
+  opacity: 0.9;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
 }
 
-.Err {
-  text-align: center;
-  position: fixed;
-  top: 10px;
-  background-color: red;
-  color: #fff;
-  padding: 10px;
-  border-radius: 40px;
+.toast.success {
+  background-color: #4caf50;
 }
+
+.toast.error {
+  background-color: #f44336;
+}
+
+.toast.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
