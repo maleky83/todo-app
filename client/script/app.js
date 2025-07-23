@@ -1,5 +1,5 @@
 let todoList = [];
-const BASE_URL = 'https://todo-app-ggt4.onrender.com/app/todos';
+const BASE_URL = 'https://todo-app-ggt4.onrender.com/api/todos';
 const inputName = document.querySelector('#inputName');
 const form = document.querySelector('form');
 const btnAdd = document.querySelector('#add');
