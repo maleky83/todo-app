@@ -1,22 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>todo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لیست کارها</title>
     <link rel="stylesheet" href="client/style/style.css" />
-
+    <link
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="container">
-      <form>
-        <input id="inputName" type="text" placeholder="اسم تسک جدید..." aria-label="نام تسک" />
-        <input id="inputNum" type="number" placeholder="0" min="1" aria-label="مدت زمان تسک به دقیقه" />
-
-
-        <button id="add" type="submit">اضافه</button>
+      <h1>لیست کارها</h1>
+      <form id="todo-form">
+        <input id="inputName" type="text" placeholder="عنوان تسک..." required />
+        <input
+          id="inputNum"
+          type="number"
+          placeholder="مدت (دقیقه)"
+          min="1"
+          required
+        />
+        <button id="add" type="submit">افزودن</button>
       </form>
-
-      <ul class="content"></ul>
+      <ul id="task-list"></ul>
     </div>
     <script src="client/script/app.js"></script>
   </body>
